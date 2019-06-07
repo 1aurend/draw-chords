@@ -6,6 +6,7 @@ function Notes(props) {
 return (
   <div style={selector}>
     <select onChange={props.onChange}>
+      <option value={null}>--</option>
       <option value='a/4'>a</option>
       <option value='b/4'>b</option>
       <option value='c/4'>c</option>
