@@ -10,6 +10,11 @@ function Music(props) {
   console.log(props.notes.length);
 
   useEffect(() => {
+
+    if (container.current.firstChild) {
+      container.current.removeChild(container.current.firstChild)
+    }
+    
     let VF = Vex.Flow
 
     let renderer = new VF.Renderer(container.current, VF.Renderer.Backends.SVG);
