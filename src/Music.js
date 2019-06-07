@@ -1,20 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Vex from 'vexflow'
-import { renderToStaticMarkup } from 'react-dom/server'
 
 
-function Music() {
+function Music(props) {
 
   const container = useRef(document.createElement('container'))
   const [loading, done] = useState(true)
-  console.log(container.current);
+  console.log(props.notes);
+  console.log(props.notes.length);
 
   useEffect(() => {
     let VF = Vex.Flow
-
-    VF.STEM_HEIGHT = 35
-    console.log(VF.STEM_HEIGHT);
-    VF.RESOLUTION = 16384
 
     let renderer = new VF.Renderer(container.current, VF.Renderer.Backends.SVG);
 
@@ -28,33 +24,27 @@ function Music() {
 
     stave.setContext(context).draw()
 
-    let notes = [
-        new VF.StaveNote({clef: "treble", keys: ["c/4"], duration: "q" }),
+    let notes = []
 
-        // A quarter-note D.
-        new VF.StaveNote({clef: "treble", keys: ["d/4"], duration: "q" }),
+    if (props.notes.length > 0) {
 
-        // A quarter-note rest. Note that the key (b/4) specifies the vertical
-        // position of the rest.
-        new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "qr" }),
+      for (var i = 0; i < props.notes.length; i++) {
+        notes.push(new VF.StaveNote({clef: "treble", keys: [props.notes[i]], duration: "q" }))
+      }
 
-        // A C-Major chord.
-        new VF.StaveNote({clef: "treble", keys: ["c/4", "e/4", "g/4"], duration: "q" })
-      ];
-
-      // Create a voice in 4/4 and add above notes
-      let voice = new VF.Voice({num_beats: 4,  beat_value: 4});
+      let voice = new VF.Voice({num_beats: props.notes.length,  beat_value: 4});
       voice.addTickables(notes);
 
-      // Format and justify the notes to 400 pixels.
       let formatter = new VF.Formatter().joinVoices([voice]).format([voice], 400);
 
-      // Render voice
       voice.draw(context, stave);
+  }
+
+
 
     done(false)
 
-  }, [])
+  }, [props.notes])
 
 
   return (
