@@ -5,8 +5,8 @@
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1",
-    "vexflow": "^1.2.89"
+    "react-scripts": "5.0.1",
+    "vexflow": "^1.2.93"
   },
   "scripts": {
     "start": "react-scripts start",
